@@ -1,0 +1,76 @@
+    1  00  40      in 0
+    2  01  18  3f  stor a,S
+    3  03  41      in 1
+    4  04  18  40  stor a,T
+    5  06  42      in 2
+    6  07  18  41  stor a,A
+    7  09  43      in 3
+    8  0a  18  42  stor a,B
+   10  0c  11  3f  load b,S
+   11  0e  19  43  stor b,X
+   12  10  c0  45  call hyper
+   13  12  10  44  load a,Y
+   14  14  20      push a
+   15  15  11  40  load b,T
+   16  17  19  43  stor b,X
+   17  19  c0  45  call hyper
+   18  1b  10  44  load a,Y
+   19  1d  20      push a        
+   20  1e  11  3f  load b,S
+   21  20  71  40  sbm b,T
+   22  22  19  43  stor b,X
+   23  24  c0  45  call hyper
+   24  26  11  44  load b,Y
+   25  28  81      mur a,b        
+   26  29  21      push b
+   27  2a  31  01  mvi b,1
+   28  2c  19  43  stor b,X
+   29  2e  c0  45  call hyper
+   30  30  11  44  load b,Y
+   31  32  21      push b
+   32  33  81      mur a,b        
+   33  34  8c  81  mum a,1(sp)
+   34  36  28      pop a
+   35  37  28      pop a
+   36  38  69      sbr a,b
+   37  39  29      pop b
+   38  3a  69      sbr a,b
+   39  3b  29      pop b
+   40  3c  51      adr a,b        
+   41  3d  4c      out 4
+   43  3e  f8      stop
+   45  3f  00      S: .ds 1
+   46  40  00      T: .ds 1
+   47  41  00      A: .ds 1
+   48  42  00      B: .ds 1
+   49  43  00      X: .ds 1
+   50  44  00      Y: .ds 1
+   52  45  21      hyper: push b
+   53  46  20      push a
+   55  47  11  42  load b,B
+   56  49  88  43  mum a,X        
+   57  4b  21      push b
+   58  4c  11  43  load b,X
+   59  4e  88  43  mum a,X
+   60  50  88  41  mum a,A
+   61  52  75  81  sbm b,1(sp)
+   62  54  61  10  adi b,10
+   63  56  19  44  stor b,Y
+   64  58  28      pop a
+   66  59  28      pop a
+   67  5a  29      pop b
+   68  5b  c8      ret
+
+    ***** Таблица перекрестных ссылок *****
+  имя     определение     ссылки
+
+ Y        44              57  31  27  1c  13                                   
+ X        43              4f  4d  4a  2d  23  18  f                            
+ T        40              21  16  5                                            
+ S        3f              1f  d   2                                            
+ HYPER    45              2f  25  1a  11                                       
+ B        42              48  b                                                
+ A        41              51  8                                                
+
+  **** Не обнаружено ошибок. Успешное завершение ****
+

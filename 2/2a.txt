@@ -1,0 +1,38 @@
+in 0
+stor a,A
+in 1
+cmi a,0
+jz SCND
+stor a,B
+in 2
+cmi a,0
+jz SCND
+stor a,C
+in 3
+stor a,F
+
+load b,B
+mum a,C 	; B*C
+push b
+load b,a
+dvm a,1(sp)
+adm b,F
+xchg
+pop b
+jmp END
+
+SCND: in 3
+stor a,F
+load a,A
+adm a,F
+
+END: out 4
+
+stop
+A: .ds 1
+B: .ds 1
+C: .ds 1
+F: .ds 1
+
+; A/(B*C)+F, B<>0, C<>0
+; A+F, B = 0 или C = 0

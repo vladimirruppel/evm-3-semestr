@@ -1,0 +1,36 @@
+in 0
+stor a,A
+in 1
+stor a,B
+in 2
+stor a,C
+in 3
+stor a,F
+
+load b,B
+cmi b,0
+jz SCND
+load b,C
+cmi b,0
+jz SCND
+
+mum a,B
+push b
+load b,a
+mui a,1
+dvm a,1(sp)
+adm b,F
+xchg
+pop b
+jmp END
+
+SCND: load a,A
+adm a,F
+
+END: out 4
+
+stop
+A: .ds 1
+B: .ds 1
+C: .ds 1
+F: .ds 1

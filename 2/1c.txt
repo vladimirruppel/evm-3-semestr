@@ -1,0 +1,19 @@
+in 0	; Ввод A
+xchg
+in 1	; Ввод B
+adr b,a	; A + B (in rB)
+in 2	; Ввод C
+sbr b,a	; A + B - C
+mur a,b ; (A + B - C)^2
+push b	; (A + B - C)^2 -> sp
+in 3	; Ввод D
+xchg
+mui a,1
+mum a,1(sp)	; (A + B - C)^2 * D
+xchg
+out 4
+pop b
+
+stop
+
+; Y=(a+b-c)^2*d

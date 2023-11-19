@@ -1,0 +1,38 @@
+in 0
+stor a,A
+in 1
+stor a,B
+
+mvi b,5
+stor b,X
+call HYPER
+load a,Y
+out 2
+
+stop
+
+A: .ds 1
+B: .ds 1
+X: .ds 1
+Y: .ds 1
+
+HYPER: push b
+push a
+
+load b,B
+mui a,1	
+mum a,X	
+push b	
+load b,X
+mui a,1	
+mum a,X
+mum a,A 
+sbm b,1(sp)	
+adi b,10
+stor b,Y
+pop a
+
+pop a
+pop b
+ret
+.end

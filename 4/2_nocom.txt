@@ -1,0 +1,61 @@
+in 0
+stor a,S
+in 1
+stor a,T
+in 2
+stor a,A
+in 3
+stor a,B
+
+load a,S
+call hyper
+push a
+load a,T
+call hyper
+push a
+load a,S
+sbm a,T
+call hyper
+mov b,a
+mur a,b	
+push b
+mvi a,1
+call hyper
+push a
+mov b,a
+mur a,b	
+mum a,1(sp)
+pop a
+pop a
+sbr a,b
+pop b
+sbr a,b
+pop b
+adr a,b	
+out 4
+
+stop
+
+S: .ds 1
+T: .ds 1
+A: .ds 1
+B: .ds 1
+
+hyper: push b
+push a
+
+load b,B
+mum a,1(sp)
+push b
+load b,2(sp)
+mum a,2(sp)
+mum a,A
+mov a,b
+sbm a,1(sp)
+adi a,10
+pop b
+pop b
+
+pop b
+ret
+.end

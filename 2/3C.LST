@@ -1,0 +1,39 @@
+    1  00  40      in 0
+    2  01  18  26  stor a,A
+    3  03  41      in 1
+    4  04  18  27  stor a,N
+    6  06  b0  00  cmi a,0
+    7  08  bd  0e  jnn POS
+    8  0a  79  01  sbi b,1
+    9  0c  b8  10  jmp PRE
+   10  0e  61  01  POS: adi b,1
+   11  10  19  28  PRE: stor b,F
+   12  12  90  00  mui a,0
+   13  14  11  27  load b,N
+   14  16  88  28  mum a,F
+   16  18  b1  01  cmi b,1
+   17  1a  b9  20  jn END
+   18  1c  58  26  CYCL: adm a,A
+   19  1e  e1  1c  loop b,CYCL
+   21  20  38      END: xchg
+   22  21  88  28  mum a,F
+   23  23  38      xchg
+   24  24  4a      out 2
+   26  25  f8      stop
+   27  26  00      A: .ds 1
+   28  27  00      N: .ds 1
+   29  28  00      F: .ds 1
+
+    ***** Таблица перекрестных ссылок *****
+  имя     определение     ссылки
+
+ PRE      10              d                                                    
+ POS      e               9                                                    
+ N        27              15  5                                                
+ F        28              22  17  11                                           
+ END      20              1b                                                   
+ CYCL     1c              1f                                                   
+ A        26              1d  2                                                
+
+  **** Не обнаружено ошибок. Успешное завершение ****
+

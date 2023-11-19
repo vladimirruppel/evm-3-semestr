@@ -1,0 +1,44 @@
+    1  00  40      in 0
+    2  01  18  2d  stor a,A
+    3  03  41      in 1
+    4  04  18  2e  stor a,B
+    5  06  42      in 2
+    6  07  18  2f  stor a,C
+    7  09  43      in 3
+    8  0a  18  30  stor a,F
+   10  0c  11  2e  load b,B
+   11  0e  b1  00  cmi b,0
+   12  10  ba  27  jz SCND
+   13  12  11  2f  load b,C
+   14  14  b1  00  cmi b,0
+   15  16  ba  27  jz SCND
+   17  18  88  2e  mum a,B
+   18  1a  21      push b
+   19  1b  11  2d  load b,a
+   20  1d  90  01  mui a,1
+   21  1f  9c  81  dvm a,1(sp)
+   22  21  59  30  adm b,F
+   23  23  38      xchg
+   24  24  29      pop b
+   25  25  b8  2b  jmp END
+   27  27  10  2d  SCND: load a,A
+   28  29  58  30  adm a,F
+   30  2b  4c      END: out 4
+   32  2c  f8      stop
+   33  2d  00      A: .ds 1
+   34  2e  00      B: .ds 1
+   35  2f  00      C: .ds 1
+   36  30  00      F: .ds 1
+
+    ***** Таблица перекрестных ссылок *****
+  имя     определение     ссылки
+
+ SCND     27              17  11                                               
+ F        30              2a  22  b                                            
+ END      2b              26                                                   
+ C        2f              13  8                                                
+ B        2e              19  d   5                                            
+ A        2d              28  1c  2                                            
+
+  **** Не обнаружено ошибок. Успешное завершение ****
+

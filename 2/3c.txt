@@ -1,0 +1,29 @@
+in 0
+stor a,A
+in 1
+stor a,N
+
+cmi a,0
+jnn POS
+sbi b,1
+jmp PRE
+POS: adi b,1
+PRE: stor b,F
+mui a,0
+load b,N
+mum a,F
+
+cmi b,1
+jn END
+CYCL: adm a,A
+loop b,CYCL
+
+END: xchg
+mum a,F
+xchg
+out 2
+
+stop
+A: .ds 1
+N: .ds 1
+F: .ds 1

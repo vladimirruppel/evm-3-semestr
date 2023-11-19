@@ -1,0 +1,46 @@
+jmp begin
+.org 10
+MA: .ds 08
+.org 20
+MB: .ds 40
+N: .ds 1
+CURR: .ds 1
+LAST: .ds 1
+begin: in 0
+stor a,N
+mvi b,0
+geta: push a
+in 1
+stor a,MA(b)
+adi b,01
+pop a
+loop a,geta
+
+load a,N
+
+cycl1: push a
+load b,N
+sbr b,a
+load b,MA(b)
+stor b,CURR
+load a,LAST
+stor b,MB(a)
+adi a,1
+stor a,LAST
+load a,N
+sbi a,1
+
+cycl2: push a
+load a,LAST
+adm b,CURR
+stor b,MB(a)
+adi a,1
+stor a,LAST
+pop a
+loop a,cycl2
+
+pop a
+loop a,cycl1
+
+stop
+.end

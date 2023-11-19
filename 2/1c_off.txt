@@ -1,0 +1,16 @@
+in 0
+xchg
+in 1
+adr b,a
+in 2
+sbr b,a
+mur a,b
+push b	
+in 3
+xchg
+mui a,1
+mum a,1(sp)	
+xchg
+out 4
+pop b
+stop

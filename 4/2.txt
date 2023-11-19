@@ -1,0 +1,61 @@
+in 0
+stor a,S
+in 1
+stor a,T
+in 2
+stor a,A
+in 3
+stor a,B
+
+load b,S
+call hyper
+push b		; P(S) -> sp
+load b,T
+call hyper
+push b		; P(T) -> sp
+load b,S
+sbm b,T
+call hyper
+mur a,b	
+push b		; P(S-T)^2 -> sp
+mvi b,1
+call hyper
+push b		; P(1) -> sp
+mur a,b	
+mum a,1(sp)	; P(1)^3 (rB)
+pop a
+pop a
+sbr a,b
+pop b
+sbr a,b
+pop b
+adr a,b	
+out 4
+
+stop
+
+S: .ds 1
+T: .ds 1
+A: .ds 1
+B: .ds 1
+
+; вычисление значения выражения P(x) = ax^2 - bx + 16
+; (аргумент) X = rB, (результат) rB; a и b в выражении - A и B в памяти
+hyper: push a
+push b			; rB (X) -> sp
+
+load b,B
+mum a,1(sp)		; BX
+push b			; BX -> sp
+load b,2(sp)	; rB = X
+mum a,2(sp)		; X^2
+mum a,A			; AX^2
+sbm b,1(sp)		; AX^2 - BX
+adi b,10		; AX^2 - BX + 16
+pop a
+pop a
+
+pop a
+pop b
+ret
+.end

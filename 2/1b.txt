@@ -1,0 +1,31 @@
+.base b
+start: mvi b,start
+
+in 0
+stor a,A
+in 1
+stor a,B
+in 2
+stor a,C
+in 3
+stor a,D
+
+push b
+push a
+load a,A
+adm a,B
+sbm a,C	; A+B-C
+xchg
+mui a,1
+mur a,b	; (A+B-C)^2
+mum a,1(sp)	; (A+B-C)^2 * D
+xchg
+out 4
+pop b
+pop b
+
+stop
+A: .ds 1
+B: .ds 1
+C: .ds 1
+D: .ds 1

@@ -1,0 +1,77 @@
+; Y:= P(S) - P(T) +P2(S-T) - P3(1), где P(x)= ax^2 - bx + 16;
+; ввод переменных
+in 0
+stor a,S
+in 1
+stor a,T
+in 2
+stor a,A
+in 3
+stor a,B
+
+; основа
+load b,S
+stor b,X
+call hyper	; P(S)
+load a,Y
+push a		; P(S) -> sp
+load b,T
+stor b,X
+call hyper	; P(T)
+load a,Y
+push a		; P(T) -> sp
+load b,S
+sbm b,T
+stor b,X
+call hyper	; P(S-T)
+load b,Y
+mui a,1
+mur a,b		; P(S-T)^2
+push b		; P(S-T)^2 -> sp
+mvi b,1
+stor b,X
+call hyper	; P(1)
+load b,Y
+push b
+mui a,1
+mur a,b		; P(1)^2
+mum a,1(sp)	; P(1)^3
+pop a		; rA = P(1)^2
+pop a		; rA = P(S-T)^2
+sbr a,b		; rA = P(S-T)^2 - P(1)^3
+pop b		; rB = P(T)
+sbr a,b		; rA = P(S-T)^2 - P(1)^3 - P(T)
+pop b		; rB = P(S)
+adr a,b		; rA = P(S-T)^2 - P(1)^3 - P(T) + P(S)
+out 4
+
+stop
+
+S: .ds 1
+T: .ds 1
+A: .ds 1
+B: .ds 1
+X: .ds 1
+Y: .ds 1
+
+; вычисление значения выражения ax^2 - bx + 16
+; (аргумент) X, (результат) Y; a и b в выражении - A и B в памяти
+hyper: push b
+push a
+
+mvi a,0 	; протестировать программу с отсутствием данной строчки
+load b,B
+mum a,X		; BX
+push b		; BX -> sp
+load b,X
+mum a,X
+mum a,A 	; AX^2
+sbm b,1(sp)	; AX^2 - BX
+adi b,10	; AX^2 - BX + 16
+stor b,Y
+pop a
+
+pop a
+pop b
+ret
+.end

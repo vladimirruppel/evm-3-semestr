@@ -1,0 +1,26 @@
+IN 0
+STOR a, A
+IN 1
+STOR a, B
+IN 2
+STOR a, C
+IN 3
+STOR a, D
+
+LOAD b, A
+ADM b, B
+SBM b, C 	; A + B - C
+STOR b, C 	; (A + B - C) -> C
+MUI a, 1
+MUM a, C	; (A + B - C)^2
+MUM a, D	; (A + B - C)^2 * D
+XCHG
+OUT 4
+
+STOP
+A: .DS 1
+B: .DS 1
+C: .DS 1
+D: .DS 1
+
+; Y=(a+b-c)^2*d
