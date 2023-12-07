@@ -1,0 +1,123 @@
+    1  00  70      .db 070
+    2  01  80      .db 080
+    3  02  00      .org 08
+    4  08  90      .db 090
+    5  09  b0      .db 0b0
+    6  0a  00      .org 10
+    7  10  d0      start: int 00
+    8  11  20      push a
+    9  12  10  3e  load a,S
+   10  14  20      push a
+   11  15  c0  44  call hyper
+   12  17  10  3f  load a,T
+   13  19  20      push a
+   14  1a  c0  44  call hyper
+   15  1c  10  3e  load a,S
+   16  1e  70  3f  sbm a,T
+   17  20  20      push a
+   18  21  c0  44  call hyper
+   19  23  29      pop b
+   20  24  29      pop b
+   21  25  81      mur a,b
+   22  26  21      push b
+   23  27  21      push b
+   24  28  31  01  mvi b,1
+   25  2a  21      push b
+   26  2b  c0  44  call hyper
+   27  2d  29      pop b
+   28  2e  15  81  load b,1(sp)
+   29  30  81      mur a,b
+   30  31  8c  81  mum a,1(sp)
+   31  33  28      pop a
+   32  34  28      pop a
+   33  35  69      sbr a,b
+   34  36  29      pop b
+   35  37  69      sbr a,b
+   36  38  29      pop b
+   37  39  51      adr a,b        
+   38  3a  18  42  stor a,Y
+   39  3c  d1      int 01
+   40  3d  f8      stop
+   41  3e  00      S: .ds 1
+   42  3f  00      T: .ds 1
+   43  40  00      A: .ds 1
+   44  41  00      B: .ds 1
+   45  42  00      Y: .ds 1
+   46  43  00      INFUN: .ds 1
+   47  44  20      hyper: push a
+   48  45  21      push b
+   49  46  31  01  mvi b,1
+   50  48  19  43  stor b,INFUN
+   51  4a  11  41  load b,B
+   52  4c  8c  84  mum a,4(sp)
+   53  4e  1d  85  stor b,5(sp)
+   54  50  15  84  load b,4(sp)
+   55  52  8c  84  mum a,4(sp)
+   56  54  88  40  mum a,A
+   57  56  75  85  sbm b,5(sp)
+   58  58  61  10  adi b,10
+   59  5a  1d  85  stor b,5(sp)
+   60  5c  31  00  mvi b,0
+   61  5e  19  43  stor b,INFUN
+   62  60  29      pop b
+   63  61  28      pop a
+   64  62  c8      ret
+   65  63  00      .org 070
+   66  70  f0      di
+   67  71  40      in 0
+   68  72  18  3e  stor a,S
+   69  74  41      in 1
+   70  75  18  3f  stor a,T
+   71  77  e8      ei
+   72  78  d8      rin
+   73  79  00      .org 080
+   74  80  f0      di
+   75  81  20      push a
+   76  82  10  42  load a,Y
+   77  84  4a      out 2
+   78  85  28      pop a
+   79  86  e8      ei
+   80  87  d8      rin
+   81  88  00      .org 090
+   82  90  f0      di
+   83  91  40      in 0
+   84  92  18  40  stor a,A
+   85  94  41      in 1
+   86  95  18  41  stor a,B
+   87  97  32  fd  mvi sp,0fd
+   88  99  30  10  mvi a,start
+   89  9b  1c  81  stor a,1(sp)
+   90  9d  30  00  mvi a,0
+   91  9f  18  43  stor a,INFUN
+   92  a1  18  42  stor a,Y
+   93  a3  e8      ei
+   94  a4  d8      rin
+   95  a5  00      .org 0b0
+   96  b0  f0      di
+   97  b1  20      push a
+   98  b2  10  43  load a,INFUN
+   99  b4  b0  00  cmi a,0
+  100  b6  ba  be  jz endp
+  101  b8  14  81  load a,1(sp)
+  102  ba  4f      out 7
+  103  bb  14  82  load a,2(sp)
+  104  bd  4e      out 6
+  105  be  28      endp: pop a
+  106  bf  e8      ei
+  107  c0  d8      rin
+
+    ***** Таблица перекрестных ссылок *****
+  имя     определение     ссылки
+
+ Y        42              a2  83  3b                                           
+ T        3f              76  1f  18                                           
+ START    10              9a                                                   
+ S        3e              73  1d  13                                           
+ INFUN    43              b3  a0  5f  49                                       
+ HYPER    44              2c  22  1b  16                                       
+ ENDP     be              b7                                                   
+ B        41              96  4b                                               
+ A        40              93  55                                               
+
+  **** Не обнаружено ошибок. Успешное завершение ****
+

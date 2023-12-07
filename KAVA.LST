@@ -1,0 +1,153 @@
+    1  00  7f      .db 07f
+    2  01  8b      .db 08b
+    3  02  00      .org 08
+    4  08  91      .db 091
+    5  09  b8      .db 0b8
+    6  0a  00      .org 10
+    7  10  d0      start: int 00
+    8  11  10  5e  load a, B
+    9  13  11  5f  load b, C
+   10  15  20      push a
+   11  16  20      push a
+   12  17  21      push b
+   13  18  c0  61  call foo
+   14  1a  28      pop a
+   15  1b  28      pop a
+   16  1c  10  5d  load a, A
+   17  1e  20      push a
+   18  1f  20      push a
+   19  20  c0  72  call power
+   20  22  28      pop a
+   21  23  29      pop b
+   22  24  28      pop a
+   23  25  19  60  stor b, Y
+   24  27  d0      int 00
+   25  28  10  5e  load a, B
+   26  2a  11  5f  load b, C
+   27  2c  20      push a
+   28  2d  20      push a
+   29  2e  21      push b
+   30  2f  c0  61  call foo
+   31  31  28      pop a
+   32  32  28      pop a
+   33  33  10  5d  load a, A
+   34  35  20      push a
+   35  36  20      push a
+   36  37  c0  72  call power
+   37  39  28      pop a
+   38  3a  29      pop b
+   39  3b  28      pop a
+   40  3c  10  60  load a, Y
+   41  3e  80      mur a, a
+   42  3f  19  60  stor b, Y
+   43  41  d0      int 00
+   44  42  10  5e  load a, B
+   45  44  11  5f  load b, C
+   46  46  20      push a
+   47  47  20      push a
+   48  48  21      push b
+   49  49  c0  61  call foo
+   50  4b  28      pop a
+   51  4c  28      pop a
+   52  4d  10  5d  load a, A
+   53  4f  20      push a
+   54  50  20      push a
+   55  51  c0  72  call power
+   56  53  28      pop a
+   57  54  29      pop b
+   58  55  28      pop a
+   59  56  10  60  load a, Y
+   60  58  51      adr a, b
+   61  59  18  60  stor a, Y
+   62  5b  d1      int 01
+   63  5c  f8      stop
+   64  5d  00      A: .ds 1
+   65  5e  00      B: .ds 1
+   66  5f  00      C: .ds 1
+   67  60  00      Y: .ds 1
+   68  61  14  82  foo: load a, 2(sp)
+   69  63  31  01  mvi b, 1
+   70  65  20      pow: push a
+   71  66  90  02  mui a, 2
+   72  68  28      pop a
+   73  69  e0  65  loop a, pow
+   74  6b  8c  83  mum a, 3(sp)
+   75  6d  61  02  adi b, 2
+   76  6f  1d  84  stor b, 4(sp)
+   77  71  c8      ret
+   78  72  14  84  power: load a, 4(sp)
+   79  74  31  01  mvi b, 1
+   80  76  20      cycl: push a
+   81  77  8c  83  mum a, 3(sp)
+   82  79  28      pop a
+   83  7a  e0  76  loop a, cycl
+   84  7c  1d  83  stor b, 3(sp)
+   85  7e  c8      ret
+   86  7f  00      .org 07f
+   87  7f  f0      di
+   88  80  40      in 0
+   89  81  18  5d  stor a, A
+   90  83  41      in 1
+   91  84  18  5e  stor a, B
+   92  86  42      in 2
+   93  87  18  5f  stor a, C
+   94  89  e8      ei
+   95  8a  d8      rin
+   96  8b  00      .org 08b
+   97  8b  f0      di
+   98  8c  10  60  load a, Y
+   99  8e  4b      out 3
+  100  8f  e8      ei
+  101  90  d8      rin
+  102  91  00      .org 091
+  103  91  f0      di
+  104  92  10  67  load a, 067
+  105  94  b0  02  cmi a, 2
+  106  96  ba  a0  jz m1
+  107  98  30  02  mvi a, 2
+  108  9a  18  67  stor a, 067
+  109  9c  18  6e  stor a, 06e
+  110  9e  b8  a6  jmp m2
+  111  a0  30  03  m1: mvi a, 3
+  112  a2  18  67  stor a, 067
+  113  a4  18  6e  stor a, 06e
+  114  a6  10  00  m2: load a, 0
+  115  a8  18  5d  stor a, 05d
+  116  aa  18  5e  stor a, 05e
+  117  ac  18  5f  stor a, 05f
+  118  ae  18  60  stor a, 060
+  119  b0  32  fd  mvi sp, 0fd
+  120  b2  30  10  mvi a, start
+  121  b4  1c  81  stor a, 1(sp)
+  122  b6  e8      ei  
+  123  b7  d8      rin
+  124  b8  00      .org 0b8
+  125  b8  f0      di
+  126  b9  20      push a
+  127  ba  23      push ps
+  128  bb  28      pop a
+  129  bc  4e      out 6
+  130  bd  14  81  load a, 1(sp)
+  131  bf  78  01  sbi a, 1
+  132  c1  4f      out 7
+  133  c2  28      pop a
+  134  c3  e8      ei
+  135  c4  d8      rin
+
+    ***** Таблица перекрестных ссылок *****
+  имя     определение     ссылки
+
+ Y        60              8d  5a  57  40  3d  26                               
+ START    10              b3                                                   
+ POWER    72              52  38  21                                           
+ POW      65              6a                                                   
+ M2       a6              9f                                                   
+ M1       a0              97                                                   
+ FOO      61              4a  30  19                                           
+ CYCL     76              7b                                                   
+ C        5f              88  45  2b  14                                       
+ B        5e              85  43  29  12                                       
+ A        5d              82  4e  34  1d                                       
+
+  **** Не обнаружено ошибок. Успешное завершение ****
+

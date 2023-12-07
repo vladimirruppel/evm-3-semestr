@@ -1,0 +1,108 @@
+.db 070
+.db 080
+.org 08
+.db 090
+.db 0b0
+.org 10
+start: int 00
+push a
+load a,S
+push a
+call hyper
+load a,T
+push a
+call hyper
+load a,S
+sbm a,T
+push a
+call hyper
+pop b
+pop b
+mur a,b
+push b
+push b
+mvi b,1
+push b
+call hyper
+pop b
+load b,1(sp)
+mur a,b
+mum a,1(sp)
+pop a
+pop a
+sbr a,b
+pop b
+sbr a,b
+pop b
+adr a,b	
+stor a,Y
+int 01
+stop
+S: .ds 1
+T: .ds 1
+A: .ds 1
+B: .ds 1
+Y: .ds 1
+INFUN: .ds 1
+hyper: push a
+push b
+mvi b,1
+stor b,INFUN
+load b,B
+mum a,4(sp)
+stor b,5(sp)
+load b,4(sp)
+mum a,4(sp)
+mum a,A
+sbm b,5(sp)
+adi b,10
+stor b,5(sp)
+mvi b,0
+stor b,INFUN
+pop b
+pop a
+ret
+.org 070
+di
+in 0
+stor a,S
+in 1
+stor a,T
+ei
+rin
+.org 080
+di
+push a
+load a,Y
+out 2
+pop a
+ei
+rin
+.org 090
+di
+in 0
+stor a,A
+in 1
+stor a,B
+mvi sp,0fd
+mvi a,start
+stor a,1(sp)
+mvi a,0
+stor a,INFUN
+stor a,Y
+ei
+rin
+.org 0b0
+di
+push a
+load a,INFUN
+cmi a,0
+jz endp
+load a,1(sp)
+out 7
+load a,2(sp)
+out 6
+endp: pop a
+ei
+rin
+.end
