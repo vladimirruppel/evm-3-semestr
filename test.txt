@@ -1,5 +1,30 @@
-
+mvi a,2
+stor a,X
+mvi a,3
+stor a,Y
+mvi a,4
+stor a,Z
+call min
+load a,R
+out 1
 stop
-
-power: 
+X: .ds 1
+Y: .ds 1
+Z: .ds 1
+R: .ds 1
+min: push a
+push b
+load a,X
+stor a,R
+load b,Y
+cmr a,b
+jnp more1
+stor b,R
+more1: load a,Z
+cmr b,a
+jnp more2
+stor a,R
+more2: pop b
+pop a
+ret
 .end
