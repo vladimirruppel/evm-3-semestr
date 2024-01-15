@@ -1,30 +1,35 @@
-mvi a,2
-stor a,X
-mvi a,3
-stor a,Y
-mvi a,4
-stor a,Z
-call min
-load a,R
-out 1
-stop
-X: .ds 1
-Y: .ds 1
-Z: .ds 1
-R: .ds 1
-min: push a
-push b
-load a,X
-stor a,R
-load b,Y
-cmr a,b
-jnp more1
-stor b,R
-more1: load a,Z
-cmr b,a
-jnp more2
-stor a,R
-more2: pop b
+jmp begin
+.org 10
+MA: .ds 10
+N: .ds 1
+F: .ds 1
+begin: in 0
+stor a,N
+mvi b,0
+geta: push a
+in 1
+stor a,MA(b)
+adi b,1
 pop a
-ret
+loop a,geta
+mvi b,0
+load a,MA(b)
+stor a,F
+load a,N
+sbi a,1
+adi b,1
+calc: push a
+push b
+load a,F
+load b,MA(b)
+cmr a,b
+jnp less
+load b,F
+less: pop b
+adi b,1
+pop a
+loop a,calc
+load a,F
+out 2
+stop
 .end

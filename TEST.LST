@@ -1,43 +1,55 @@
-    1  00  30  02  mvi a,2
-    2  02  18  12  stor a,X
-    3  04  30  03  mvi a,3
-    4  06  18  13  stor a,Y
-    5  08  30  04  mvi a,4
-    6  0a  18  14  stor a,Z
-    7  0c  c0  16  call min
-    8  0e  10  15  load a,R
-    9  10  49      out 1
-   10  11  f8      stop
-   11  12  00      X: .ds 1
-   12  13  00      Y: .ds 1
-   13  14  00      Z: .ds 1
-   14  15  00      R: .ds 1
-   15  16  20      min: push a
-   16  17  21      push b
-   17  18  10  12  load a,X
-   18  1a  18  15  stor a,R
-   19  1c  11  13  load b,Y
-   20  1e  a9      cmr a,b
-   21  1f  bf  23  jnp more1
-   22  21  19  15  stor b,R
-   23  23  10  14  more1: load a,Z
-   24  25  aa      cmr b,a
-   25  26  bf  2a  jnp more2
-   26  28  18  15  stor a,R
-   27  2a  29      more2: pop b
-   28  2b  28      pop a
-   29  2c  c8      ret
+    1  00  b8  22  jmp begin
+    2  02  00      .org 10
+    3  10  00  00  MA: .ds 10
+           00  00
+           00  00
+           00  00
+           00  00
+           00  00
+           00  00
+           00  00
+    4  20  00      N: .ds 1
+    5  21  00      F: .ds 1
+    6  22  40      begin: in 0
+    7  23  18  20  stor a,N
+    8  25  31  00  mvi b,0
+    9  27  20      geta: push a
+   10  28  41      in 1
+   11  29  1c  50  stor a,MA(b)
+   12  2b  61  01  adi b,1
+   13  2d  28      pop a
+   14  2e  e0  27  loop a,geta
+   15  30  31  00  mvi b,0
+   16  32  14  50  load a,MA(b)
+   17  34  18  21  stor a,F
+   18  36  10  20  load a,N
+   19  38  78  01  sbi a,1
+   20  3a  61  01  adi b,1
+   21  3c  20      calc: push a
+   22  3d  21      push b
+   23  3e  10  21  load a,F
+   24  40  15  50  load b,MA(b)
+   25  42  a9      cmr a,b
+   26  43  bf  47  jnp less
+   27  45  11  21  load b,F
+   28  47  29      less: pop b
+   29  48  61  01  adi b,1
+   30  4a  28      pop a
+   31  4b  e0  3c  loop a,calc
+   32  4d  10  21  load a,F
+   33  4f  4a      out 2
+   34  50  f8      stop
 
     ***** Таблица перекрестных ссылок *****
   имя     определение     ссылки
 
- Z        14              24  b                                                
- Y        13              1d  7                                                
- X        12              19  3                                                
- R        15              29  22  1b  f                                        
- MORE2    2a              27                                                   
- MORE1    23              20                                                   
- MIN      16              d                                                    
+ N        20              37  24                                               
+ MA       10              41  33  2a                                           
+ LESS     47              44                                                   
+ GETA     27              2f                                                   
+ F        21              4e  46  3f  35                                       
+ CALC     3c              4c                                                   
+ BEGIN    22              1                                                    
 
   **** Не обнаружено ошибок. Успешное завершение ****
 
